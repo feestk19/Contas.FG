@@ -1,0 +1,6 @@
+@Contas.FeEGe.Api_HostAddress = http://localhost:5072
+
+GET {{Contas.FeEGe.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
