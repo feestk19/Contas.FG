@@ -1,23 +1,88 @@
-# Build artifacts
+# ------------------------------------------------------------
+# Build artifacts and caches (.NET)
+# ------------------------------------------------------------
 **/bin/
 **/obj/
+**/out/
+**/artifacts/
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+*.cache
+*.pidb
+*.svclog
+*.pdb
 
-# User-specific files
+# NuGet generated/cache files
+*.nupkg
+*.snupkg
+*.nuspec
+packages/
+.nuget/
+
+# ------------------------------------------------------------
+# Test, coverage and reports
+# ------------------------------------------------------------
+TestResults/
+**/TestResults/
+*.trx
+*.coverage
+*.coveragexml
+coverage/
+coverage-results/
+lcov.info
+
+# ------------------------------------------------------------
+# IDE/editor metadata
+# ------------------------------------------------------------
+.vs/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+
+# Rider / ReSharper
+.idea/
+_ReSharper*/
+*.DotSettings.user
+
+# Visual Studio user-specific files
 *.user
+*.rsuser
 *.suo
 *.userosscache
 *.sln.docstates
 
-# VS Code
-.vscode/
-
-# Test results
-TestResults/
-*.trx
-
-# Logs
+# ------------------------------------------------------------
+# Logs and temporary files
+# ------------------------------------------------------------
 *.log
+*.tmp
+*.temp
+*.bak
+*.swp
+*.orig
 
+# ------------------------------------------------------------
+# Local environment and secrets
+# ------------------------------------------------------------
+.env
+.env.*
+secrets.json
+
+# ------------------------------------------------------------
+# Optional frontend caches (if present in future)
+# ------------------------------------------------------------
+node_modules/
+.npm/
+.pnpm-store/
+.yarn/
+
+# ------------------------------------------------------------
 # OS files
+# ------------------------------------------------------------
 .DS_Store
 Thumbs.db
+Desktop.ini
