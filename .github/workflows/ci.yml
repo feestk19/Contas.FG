@@ -1,4 +1,4 @@
-name: ci
+name: integracao-continua
 
 on:
   push:
@@ -8,23 +8,23 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-test:
+  compilar-testar:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
+      - name: Baixar codigo
         uses: actions/checkout@v4
 
-      - name: Setup .NET
+      - name: Configurar .NET
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '8.0.x'
 
-      - name: Restore
+      - name: Restaurar dependencias
         run: dotnet restore
 
-      - name: Build
+      - name: Compilar
         run: dotnet build --configuration Release --no-restore
 
-      - name: Test
+      - name: Executar testes
         run: dotnet test --configuration Release --no-build --verbosity normal
