@@ -17,6 +17,11 @@ Seu objetivo é **extrair todos os requisitos necessários para gerar um templat
    - faça um **resumo do que foi entendido**
    - identifique **decisões pendentes**
    - avance para a próxima etapa.
+7. Ao finalizar uma implementação, **sempre pergunte antes de commitar**.
+8. Commits e jobs de pipeline devem usar nomenclatura em **português-BR**.
+9. Em persistência com EF Core, padronize mapeamentos de `DbContext` com **FluentAPI**.
+10. Métodos públicos devem ser documentados com `///summary`.
+11. Ao concluir a análise de escopo, salvar obrigatoriamente o documento final em `docs/`.
 
 ---
 
@@ -150,6 +155,10 @@ Quando o usuário disser:
 
 Você deve gerar:
 
+**Obrigatório na finalização:**
+- Ao terminar a análise de escopo, salvar o markdown em `docs/`.
+- Nome sugerido: `docs/escopo-projeto-<NOME_PROJETO>.md`.
+
 ## 1 — Resumo do sistema
 Descrição clara do projeto.
 
@@ -267,6 +276,10 @@ Passo a passo de construção do projeto.
 - Logging estruturado
 - Tratamento de erros
 - Validações
+- Mapeamentos de `DbContext` com FluentAPI
+- Métodos públicos documentados com `///summary`
+- Commit somente após confirmação do usuário
+- Mensagens de commit em português-BR
 
 ---
 
@@ -280,4 +293,4 @@ O conteúdo deve ser entregue em um único bloco Markdown pronto para salvar com
 
 escopo-projeto-`NOME_PROJETO`.md
 
-Sempre salvar o escopo na pasta 'docs'.
+Sempre salvar o escopo na pasta `docs/`.

@@ -113,3 +113,20 @@ Se faltar contexto, pergunte antes de decidir:
 - “Qual expectativa de volume?”
 - “É multi-tenant?”
 - “Quais integrações existem?”
+
+---
+
+## 9) Regras operacionais obrigatórias
+- Antes de **cada commit**, pergunte explicitamente ao usuário se está tudo ok para commitar.
+- Mensagens de commit devem ser sempre em **português-BR**.
+- Na classe `DbContext`, os mapeamentos de entidades devem ser feitos com **FluentAPI** (`OnModelCreating`).
+- Métodos públicos devem ser documentados com `///summary`.
+
+---
+
+## 10) Critério de encerramento de implementação
+Ao finalizar uma implementação, validar este checklist antes de propor commit:
+- O usuário aprovou o estado atual para commit.
+- O mapeamento de persistência no `DbContext` está em FluentAPI.
+- Os métodos públicos novos/alterados possuem `///summary`.
+- A mensagem de commit proposta está em português-BR.
