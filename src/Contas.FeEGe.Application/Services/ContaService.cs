@@ -28,6 +28,11 @@ public sealed class ContaService
     private readonly IContaRepository _contaRepository;
     private readonly IHistoricoReagendamentoRepository _historicoReagendamentoRepository;
 
+    /// <summary>
+    /// Inicializa uma nova instancia de <see cref="ContaService"/>.
+    /// </summary>
+    /// <param name="contaRepository">Repositorio de contas.</param>
+    /// <param name="historicoReagendamentoRepository">Repositorio de historico de reagendamento.</param>
     public ContaService(
         IContaRepository contaRepository,
         IHistoricoReagendamentoRepository historicoReagendamentoRepository)
@@ -36,6 +41,13 @@ public sealed class ContaService
         _historicoReagendamentoRepository = historicoReagendamentoRepository;
     }
 
+    /// <summary>
+    /// Cria uma nova conta aplicando validacoes de negocio.
+    /// </summary>
+    /// <param name="conta">Conta a ser criada.</param>
+    /// <param name="cancellationToken">Token de cancelamento da operacao.</param>
+    /// <returns>Identificador da conta criada.</returns>
+    /// <exception cref="ArgumentException">Lancada quando houver dados invalidos para criacao.</exception>
     public async Task<long> CriarAsync(Conta conta, CancellationToken cancellationToken = default)
     {
         if (conta.Valor < 0)
@@ -52,6 +64,13 @@ public sealed class ContaService
         return conta.Id;
     }
 
+    /// <summary>
+    /// Marca uma conta como paga informando a data de pagamento.
+    /// </summary>
+    /// <param name="contaId">Identificador da conta.</param>
+    /// <param name="dataPagamento">Data de pagamento registrada.</param>
+    /// <param name="cancellationToken">Token de cancelamento da operacao.</param>
+    /// <exception cref="KeyNotFoundException">Lancada quando a conta nao for encontrada.</exception>
     public async Task PagarAsync(long contaId, DateOnly dataPagamento, CancellationToken cancellationToken = default)
     {
         var conta = await _contaRepository.GetByIdAsync(contaId, cancellationToken)
@@ -63,6 +82,17 @@ public sealed class ContaService
         await _contaRepository.UpdateAsync(conta, cancellationToken);
     }
 
+    /// <summary>
+    /// Registra pagamento parcial e cria uma nova conta para o valor remanescente.
+    /// </summary>
+    /// <param name="contaId">Identificador da conta original.</param>
+    /// <param name="valorPago">Valor parcial pago.</param>
+    /// <param name="dataPagamento">Data do pagamento parcial.</param>
+    /// <param name="dataProximoPagamento">Data prevista para o proximo pagamento.</param>
+    /// <param name="cancellationToken">Token de cancelamento da operacao.</param>
+    /// <returns>Identificador da nova conta remanescente.</returns>
+    /// <exception cref="KeyNotFoundException">Lancada quando a conta nao for encontrada.</exception>
+    /// <exception cref="ArgumentException">Lancada quando o valor parcial for invalido.</exception>
     public async Task<long> RegistrarPagamentoParcialAsync(
         long contaId,
         decimal valorPago,
@@ -98,6 +128,16 @@ public sealed class ContaService
         return novaConta.Id;
     }
 
+    /// <summary>
+    /// Reagenda o vencimento de uma conta e registra historico da alteracao.
+    /// </summary>
+    /// <param name="contaId">Identificador da conta a reagendar.</param>
+    /// <param name="novaData">Nova data de vencimento.</param>
+    /// <param name="motivo">Justificativa do reagendamento.</param>
+    /// <param name="usuario">Usuario responsavel pela acao.</param>
+    /// <param name="cancellationToken">Token de cancelamento da operacao.</param>
+    /// <exception cref="ArgumentException">Lancada quando a justificativa nao for informada.</exception>
+    /// <exception cref="KeyNotFoundException">Lancada quando a conta nao for encontrada.</exception>
     public async Task ReagendarAsync(
         long contaId,
         DateOnly novaData,
@@ -130,6 +170,14 @@ public sealed class ContaService
         await _historicoReagendamentoRepository.AddAsync(historico, cancellationToken);
     }
 
+    /// <summary>
+    /// Cancela uma conta exigindo justificativa.
+    /// </summary>
+    /// <param name="contaId">Identificador da conta.</param>
+    /// <param name="motivo">Justificativa do cancelamento.</param>
+    /// <param name="cancellationToken">Token de cancelamento da operacao.</param>
+    /// <exception cref="ArgumentException">Lancada quando a justificativa nao for informada.</exception>
+    /// <exception cref="KeyNotFoundException">Lancada quando a conta nao for encontrada.</exception>
     public async Task CancelarAsync(long contaId, string motivo, CancellationToken cancellationToken = default)
     {
         if (string.IsNullOrWhiteSpace(motivo))
@@ -146,6 +194,12 @@ public sealed class ContaService
         await _contaRepository.UpdateAsync(conta, cancellationToken);
     }
 
+    /// <summary>
+    /// Marca automaticamente contas pendentes vencidas como em atraso.
+    /// </summary>
+    /// <param name="referencia">Data de referencia para identificacao de atraso.</param>
+    /// <param name="cancellationToken">Token de cancelamento da operacao.</param>
+    /// <returns>Quantidade de contas atualizadas para atraso.</returns>
     public async Task<int> MarcarEmAtrasoAsync(DateOnly referencia, CancellationToken cancellationToken = default)
     {
         var contas = await _contaRepository.GetPendentesVencidasAsync(referencia, cancellationToken);

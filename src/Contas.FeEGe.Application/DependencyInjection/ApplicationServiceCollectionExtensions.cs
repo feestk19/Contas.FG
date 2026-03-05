@@ -23,6 +23,11 @@ namespace Contas.FeEGe.Application.DependencyInjection;
 
 public static class ApplicationServiceCollectionExtensions
 {
+    /// <summary>
+    /// Registra os servicos da camada de aplicacao no container de dependencia.
+    /// </summary>
+    /// <param name="services">Colecao de servicos da aplicacao.</param>
+    /// <returns>A mesma colecao de servicos para encadeamento.</returns>
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
         services.AddScoped<ContaService>();

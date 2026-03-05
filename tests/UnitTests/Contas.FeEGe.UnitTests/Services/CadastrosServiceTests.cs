@@ -25,6 +25,9 @@ namespace Contas.FeEGe.UnitTests.Services;
 
 public sealed class CadastrosServiceTests
 {
+    /// <summary>
+    /// Garante que criacao de categoria falha quando nome e vazio.
+    /// </summary>
     [Fact]
     public async Task Categoria_CriarAsync_DeveFalhar_QuandoNomeVazio()
     {
@@ -34,6 +37,9 @@ public sealed class CadastrosServiceTests
         await Assert.ThrowsAsync<ArgumentException>(() => service.CriarAsync(" "));
     }
 
+    /// <summary>
+    /// Garante que inativacao de categoria atualiza a flag de ativo.
+    /// </summary>
     [Fact]
     public async Task Categoria_InativarAsync_DeveAtualizarFlagAtivo()
     {
@@ -49,6 +55,9 @@ public sealed class CadastrosServiceTests
         repository.Verify(x => x.UpdateAsync(categoria, It.IsAny<CancellationToken>()), Times.Once);
     }
 
+    /// <summary>
+    /// Garante que criacao de tipo de conta falha quando nome e vazio.
+    /// </summary>
     [Fact]
     public async Task TipoConta_CriarAsync_DeveFalhar_QuandoNomeVazio()
     {
@@ -58,6 +67,11 @@ public sealed class CadastrosServiceTests
         await Assert.ThrowsAsync<ArgumentException>(() => service.CriarAsync(string.Empty));
     }
 
+    /// <summary>
+    /// Garante que criacao de fonte de renda falha quando valores sao invalidos.
+    /// </summary>
+    /// <param name="valor">Valor mensal testado.</param>
+    /// <param name="dia">Dia previsto testado.</param>
     [Theory]
     [InlineData(0, 10)]
     [InlineData(1000, 0)]
@@ -70,6 +84,9 @@ public sealed class CadastrosServiceTests
         await Assert.ThrowsAsync<ArgumentException>(() => service.CriarAsync("Salário", valor, dia));
     }
 
+    /// <summary>
+    /// Garante que validacao no exit consulta existencia do usuario no repositorio.
+    /// </summary>
     [Fact]
     public async Task UsuarioPermissao_ValidarUsuarioNoExitAsync_DeveConsultarRepositorio()
     {
@@ -82,6 +99,9 @@ public sealed class CadastrosServiceTests
         Assert.True(existe);
     }
 
+    /// <summary>
+    /// Garante que associacao de rotinas falha quando nenhuma rotina e selecionada.
+    /// </summary>
     [Fact]
     public async Task UsuarioPermissao_AssociarRotinasAsync_DeveFalhar_QuandoSemRotinas()
     {
@@ -91,6 +111,9 @@ public sealed class CadastrosServiceTests
         await Assert.ThrowsAsync<ArgumentException>(() => service.AssociarRotinasAsync("operador", Array.Empty<string>()));
     }
 
+    /// <summary>
+    /// Garante que associacao de rotinas e persistida no repositorio.
+    /// </summary>
     [Fact]
     public async Task UsuarioPermissao_AssociarRotinasAsync_DevePersistirAssociacao()
     {

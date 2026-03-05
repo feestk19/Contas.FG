@@ -29,6 +29,10 @@ public sealed class ContaServiceTests
     private readonly Mock<IContaRepository> _contaRepositoryMock = new();
     private readonly Mock<IHistoricoReagendamentoRepository> _historicoRepositoryMock = new();
 
+    /// <summary>
+    /// Garante que a criacao de conta falha quando o valor informado e negativo.
+    /// </summary>
+    /// <param name="valor">Valor de entrada para o teste de validacao.</param>
     [Theory]
     [InlineData(-1)]
     [InlineData(-0.01)]
@@ -47,6 +51,9 @@ public sealed class ContaServiceTests
         await Assert.ThrowsAsync<ArgumentException>(() => service.CriarAsync(conta));
     }
 
+    /// <summary>
+    /// Garante que nao e permitido criar conta com status pago sem data de pagamento.
+    /// </summary>
     [Fact]
     public async Task CriarAsync_DeveLancarExcecao_QuandoPagoSemDataPagamento()
     {
@@ -63,6 +70,9 @@ public sealed class ContaServiceTests
         await Assert.ThrowsAsync<ArgumentException>(() => service.CriarAsync(conta));
     }
 
+    /// <summary>
+    /// Garante que pagamento com data futura e aceito e atualiza status da conta.
+    /// </summary>
     [Fact]
     public async Task PagarAsync_DevePermitirDataFuturaEAtualizarStatus()
     {
@@ -82,6 +92,10 @@ public sealed class ContaServiceTests
         _contaRepositoryMock.Verify(x => x.UpdateAsync(conta, It.IsAny<CancellationToken>()), Times.Once);
     }
 
+    /// <summary>
+    /// Garante que pagamento parcial rejeita valores fora das regras de negocio.
+    /// </summary>
+    /// <param name="valorPago">Valor parcial testado.</param>
     [Theory]
     [InlineData(0)]
     [InlineData(-10)]
@@ -113,6 +127,9 @@ public sealed class ContaServiceTests
                 new DateOnly(2026, 4, 5)));
     }
 
+    /// <summary>
+    /// Garante que pagamento parcial gera conta remanescente e atualiza status da conta original.
+    /// </summary>
     [Fact]
     public async Task RegistrarPagamentoParcialAsync_DeveGerarContaRemanescente()
     {
@@ -146,6 +163,9 @@ public sealed class ContaServiceTests
             Times.Once);
     }
 
+            /// <summary>
+            /// Garante que reagendamento exige justificativa obrigatoria.
+            /// </summary>
     [Fact]
     public async Task ReagendarAsync_DeveExigirJustificativa()
     {
@@ -154,6 +174,9 @@ public sealed class ContaServiceTests
             service.ReagendarAsync(1004, new DateOnly(2026, 5, 10), " ", "admin"));
     }
 
+    /// <summary>
+    /// Garante que reagendamento atualiza a conta e grava historico.
+    /// </summary>
     [Fact]
     public async Task ReagendarAsync_DeveAtualizarContaERegistrarHistorico()
     {
@@ -173,6 +196,9 @@ public sealed class ContaServiceTests
             Times.Once);
     }
 
+    /// <summary>
+    /// Garante que cancelamento exige justificativa obrigatoria.
+    /// </summary>
     [Fact]
     public async Task CancelarAsync_DeveExigirJustificativa()
     {
@@ -180,6 +206,9 @@ public sealed class ContaServiceTests
         await Assert.ThrowsAsync<ArgumentException>(() => service.CancelarAsync(1006, string.Empty));
     }
 
+    /// <summary>
+    /// Garante que contas pendentes vencidas sao marcadas como em atraso.
+    /// </summary>
     [Fact]
     public async Task MarcarEmAtrasoAsync_DeveAtualizarTodasPendentesVencidas()
     {

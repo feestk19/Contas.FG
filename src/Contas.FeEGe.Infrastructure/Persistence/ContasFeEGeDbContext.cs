@@ -25,6 +25,10 @@ namespace Contas.FeEGe.Infrastructure.Persistence;
 
 public sealed class ContasFeEGeDbContext : DbContext
 {
+    /// <summary>
+    /// Inicializa uma nova instancia de <see cref="ContasFeEGeDbContext"/>.
+    /// </summary>
+    /// <param name="options">Opcoes de configuracao do contexto.</param>
     public ContasFeEGeDbContext(DbContextOptions<ContasFeEGeDbContext> options)
         : base(options)
     {
@@ -40,6 +44,10 @@ public sealed class ContasFeEGeDbContext : DbContext
     public DbSet<UsuarioRotina> UsuariosRotinas => Set<UsuarioRotina>();
     public DbSet<LogSistema> LogsSistema => Set<LogSistema>();
 
+    /// <summary>
+    /// Aplica mapeamentos FluentAPI das entidades do sistema.
+    /// </summary>
+    /// <param name="modelBuilder">Construtor de modelo do EF Core.</param>
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         ConfigureConta(modelBuilder);
@@ -53,6 +61,10 @@ public sealed class ContasFeEGeDbContext : DbContext
         ConfigureLogSistema(modelBuilder);
     }
 
+    /// <summary>
+    /// Configura mapeamento da entidade Conta para tabela TCONTAS.
+    /// </summary>
+    /// <param name="modelBuilder">Construtor de modelo do EF Core.</param>
     private static void ConfigureConta(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Conta>(entity =>
@@ -104,6 +116,10 @@ public sealed class ContasFeEGeDbContext : DbContext
         });
     }
 
+    /// <summary>
+    /// Configura mapeamento da entidade Categoria para tabela TCATEGORIA.
+    /// </summary>
+    /// <param name="modelBuilder">Construtor de modelo do EF Core.</param>
     private static void ConfigureCategoria(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Categoria>(entity =>
@@ -126,6 +142,10 @@ public sealed class ContasFeEGeDbContext : DbContext
         });
     }
 
+    /// <summary>
+    /// Configura mapeamento da entidade TipoConta para tabela TTIPOCONTA.
+    /// </summary>
+    /// <param name="modelBuilder">Construtor de modelo do EF Core.</param>
     private static void ConfigureTipoConta(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<TipoConta>(entity =>
@@ -148,6 +168,10 @@ public sealed class ContasFeEGeDbContext : DbContext
         });
     }
 
+    /// <summary>
+    /// Configura mapeamento da entidade FonteRenda para tabela TFONTERENDA.
+    /// </summary>
+    /// <param name="modelBuilder">Construtor de modelo do EF Core.</param>
     private static void ConfigureFonteRenda(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<FonteRenda>(entity =>
@@ -177,6 +201,10 @@ public sealed class ContasFeEGeDbContext : DbContext
         });
     }
 
+    /// <summary>
+    /// Configura mapeamento da entidade HistoricoReagendamento para tabela THISTREAGENDAMENTO.
+    /// </summary>
+    /// <param name="modelBuilder">Construtor de modelo do EF Core.</param>
     private static void ConfigureHistoricoReagendamento(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<HistoricoReagendamento>(entity =>
@@ -217,6 +245,10 @@ public sealed class ContasFeEGeDbContext : DbContext
         });
     }
 
+    /// <summary>
+    /// Configura mapeamento da entidade Usuario para tabela TUSUARIO.
+    /// </summary>
+    /// <param name="modelBuilder">Construtor de modelo do EF Core.</param>
     private static void ConfigureUsuario(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Usuario>(entity =>
@@ -247,6 +279,10 @@ public sealed class ContasFeEGeDbContext : DbContext
         });
     }
 
+    /// <summary>
+    /// Configura mapeamento da entidade Rotina para tabela TROTINA.
+    /// </summary>
+    /// <param name="modelBuilder">Construtor de modelo do EF Core.</param>
     private static void ConfigureRotina(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Rotina>(entity =>
@@ -277,6 +313,10 @@ public sealed class ContasFeEGeDbContext : DbContext
         });
     }
 
+    /// <summary>
+    /// Configura mapeamento da entidade UsuarioRotina para tabela TUSUARIOROTINA.
+    /// </summary>
+    /// <param name="modelBuilder">Construtor de modelo do EF Core.</param>
     private static void ConfigureUsuarioRotina(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<UsuarioRotina>(entity =>
@@ -309,6 +349,10 @@ public sealed class ContasFeEGeDbContext : DbContext
         });
     }
 
+    /// <summary>
+    /// Configura mapeamento da entidade LogSistema para tabela TLOGSISTEMA.
+    /// </summary>
+    /// <param name="modelBuilder">Construtor de modelo do EF Core.</param>
     private static void ConfigureLogSistema(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<LogSistema>(entity =>

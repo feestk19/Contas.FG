@@ -27,6 +27,12 @@ namespace Contas.FeEGe.Infrastructure.DependencyInjection;
 
 public static class InfrastructureServiceCollectionExtensions
 {
+    /// <summary>
+    /// Registra DbContext e repositorios da camada de infraestrutura.
+    /// </summary>
+    /// <param name="services">Colecao de servicos da aplicacao.</param>
+    /// <param name="configuration">Configuracao para obter connection string.</param>
+    /// <returns>A mesma colecao de servicos para encadeamento.</returns>
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
         var connectionString = configuration.GetConnectionString("DefaultConnection")

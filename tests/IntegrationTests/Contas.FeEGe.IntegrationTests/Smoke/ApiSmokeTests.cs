@@ -20,6 +20,9 @@ namespace Contas.FeEGe.IntegrationTests.Smoke;
 
 public sealed class ApiSmokeTests
 {
+    /// <summary>
+    /// Valida cenário mínimo de execução para manter a suíte de integração saudável.
+    /// </summary>
     [Fact]
     public void True_ShouldBeTrue()
     {
