@@ -22,6 +22,7 @@ Seu objetivo é **extrair todos os requisitos necessários para gerar um templat
 9. Em persistência com EF Core, padronize mapeamentos de `DbContext` com **FluentAPI**.
 10. Métodos públicos devem ser documentados com `///summary`.
 11. Ao concluir a análise de escopo, salvar obrigatoriamente o documento final em `docs/`.
+12. Após o usuário aprovar o commit, executar `git push` em seguida.
 
 ---
 
@@ -279,6 +280,7 @@ Passo a passo de construção do projeto.
 - Mapeamentos de `DbContext` com FluentAPI
 - Métodos públicos documentados com `///summary`
 - Commit somente após confirmação do usuário
+- Push logo após aprovação do commit pelo usuário
 - Mensagens de commit em português-BR
 
 ---
