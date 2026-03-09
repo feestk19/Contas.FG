@@ -19,6 +19,40 @@ function To-JsonBody {
     return ($Body | ConvertTo-Json -Depth 10 -Compress)
 }
 
+function Wait-ApiHealth {
+    param(
+        [string]$BaseUrl,
+        [int]$MaxTentativas = 30,
+        [int]$IntervaloSegundos = 2
+    )
+
+    $healthUrl = "$BaseUrl/health"
+    $ultimoStatus = "sem resposta"
+
+    for ($tentativa = 1; $tentativa -le $MaxTentativas; $tentativa++) {
+        try {
+            $response = Invoke-WebRequest -Uri $healthUrl -Method Get -UseBasicParsing -TimeoutSec 10
+            $ultimoStatus = [string]$response.StatusCode
+
+            if ($response.StatusCode -eq 200) {
+                return
+            }
+        }
+        catch {
+            if ($_.Exception.Response -and $_.Exception.Response.StatusCode) {
+                $ultimoStatus = [string][int]$_.Exception.Response.StatusCode
+            }
+            else {
+                $ultimoStatus = "indisponivel"
+            }
+        }
+
+        Start-Sleep -Seconds $IntervaloSegundos
+    }
+
+    throw "Health check nao ficou disponivel apos $MaxTentativas tentativas. Ultimo status: $ultimoStatus."
+}
+
 function New-Conta {
     param(
         [string]$Descricao,
@@ -44,10 +78,7 @@ function New-Conta {
 try {
     Write-Info "Iniciando validacao funcional HML em $BaseUrl"
 
-    $healthCode = curl.exe -s -o NUL -w "%{http_code}" "$BaseUrl/health"
-    if ($healthCode -ne "200") {
-        throw "Health check retornou status $healthCode."
-    }
+    Wait-ApiHealth -BaseUrl $BaseUrl
 
     Write-Ok "Health check" "status=200"
 
