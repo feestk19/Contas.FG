@@ -38,6 +38,22 @@ docker compose logs -f api
 - Swagger UI: `http://localhost:8080/swagger`
 - Scalar: `http://localhost:8080/scalar/v1`
 
+### Smoke test funcional em HML
+
+Para validar rapidamente o fluxo principal da API (cadastros, permissoes e ciclo de vida de contas), execute:
+
+```powershell
+.\scripts\validar-hml.ps1
+```
+
+Para apontar para outra URL da API:
+
+```powershell
+.\scripts\validar-hml.ps1 -BaseUrl "http://localhost:8080"
+```
+
+Observacao: o script cria registros de teste no banco de homologacao.
+
 ### Derrubar o ambiente
 
 ```powershell
