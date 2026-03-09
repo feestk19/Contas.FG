@@ -1,6 +1,30 @@
-@Contas.FeEGe.Api_HostAddress = http://localhost:5072
+@Contas_FeEGe_Api_HostAddress = http://localhost:8080
 
-GET {{Contas.FeEGe.Api_HostAddress}}/weatherforecast/
+GET {{Contas_FeEGe_Api_HostAddress}}/health
 Accept: application/json
+
+###
+
+POST {{Contas_FeEGe_Api_HostAddress}}/api/categorias
+Content-Type: application/json
+
+{
+	"nome": "Moradia"
+}
+
+###
+
+POST {{Contas_FeEGe_Api_HostAddress}}/api/contas
+Content-Type: application/json
+
+{
+	"descricao": "Conta de energia",
+	"valor": 320.50,
+	"tipo": 2,
+	"categoriaId": 1,
+	"dataVencimento": "2026-03-15",
+	"status": 1,
+	"observacao": "Vencimento mensal"
+}
 
 ###

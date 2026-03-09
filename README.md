@@ -34,6 +34,9 @@ docker compose logs -f api
 
 - API: `http://localhost:8080`
 - Health Check: `http://localhost:8080/health`
+- OpenAPI JSON: `http://localhost:8080/openapi/v1.json`
+- Swagger UI: `http://localhost:8080/swagger`
+- Scalar: `http://localhost:8080/scalar/v1`
 
 ### Derrubar o ambiente
 
