@@ -28,3 +28,26 @@ jobs:
 
       - name: Executar testes
         run: dotnet test --configuration Release --no-build --verbosity normal
+
+  validar-hml-docker:
+    runs-on: ubuntu-latest
+    needs: compilar-testar
+
+    steps:
+      - name: Baixar codigo
+        uses: actions/checkout@v4
+
+      - name: Subir ambiente de homologacao
+        run: docker compose up -d --build
+
+      - name: Executar smoke test funcional
+        shell: pwsh
+        run: ./scripts/validar-hml.ps1 -BaseUrl "http://localhost:8080"
+
+      - name: Coletar logs da API em caso de falha
+        if: failure()
+        run: docker compose logs --no-color api
+
+      - name: Encerrar ambiente de homologacao
+        if: always()
+        run: docker compose down -v
